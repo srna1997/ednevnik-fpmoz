@@ -32,7 +32,7 @@ public class ListStudentFragment extends Fragment {
 
         this.studentRecyclerView = userListAdminView.findViewById(R.id.studentRecyclerView);
         this.db = FirebaseDatabase.getInstance();
-        this.ref = this.db.getReference("ednevnik/ucenici");
+        this.ref = this.db.getReference("ednevnik/korisnici/");
         this.studentRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         FirebaseRecyclerOptions<Student> options = new FirebaseRecyclerOptions

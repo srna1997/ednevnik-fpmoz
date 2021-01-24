@@ -39,9 +39,7 @@ public class AddCursesFragment extends Fragment {
         this.addCurseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String name = curseName.getText().toString();
-                ref.push().setValue(new Curses(name));
-                curseName.setText("");
+
             }
         });
         return curseAdminView;

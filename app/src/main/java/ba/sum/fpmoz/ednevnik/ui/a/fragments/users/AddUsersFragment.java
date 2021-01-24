@@ -40,9 +40,7 @@ public class AddUsersFragment extends Fragment implements AdapterView.OnItemSele
 
     FirebaseAuth mAuth;
     FirebaseDatabase db;
-    DatabaseReference refAdmin;
-    DatabaseReference refTeacher;
-    DatabaseReference refStudent;
+    DatabaseReference ref;
     TextView message;
     EditText displayNameInp;
     EditText emailInp;
@@ -60,9 +58,7 @@ public class AddUsersFragment extends Fragment implements AdapterView.OnItemSele
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseDatabase.getInstance();
-        this.refAdmin = this.db.getReference("ednevnik/admini");
-        this.refTeacher = this.db.getReference("ednevnik/nastavnici");
-        this.refStudent = this.db.getReference("ednevnik/ucenici");
+        ref = this.db.getReference("ednevnik/korisnici");
 
         this.message = userAdminView.findViewById(R.id.registerMsg);
         this.displayNameInp = userAdminView.findViewById(R.id.displayNameInp);
@@ -101,26 +97,16 @@ public class AddUsersFragment extends Fragment implements AdapterView.OnItemSele
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if(task.isSuccessful()){
-                                            if(role.equals("Admin")){
-                                                refAdmin.push().setValue(
-                                                        new User(user.getIdToken(true),displayName,email,role));
-                                            } else if(role.equals("Nastavnik"))
-                                            {
-                                                refTeacher.push().setValue(
-                                                        new Teacher(displayName,email,role));
-                                            }else
-                                            {
-                                                refStudent.push().setValue(
-                                                        new Student(displayName,email,role));
-
-                                            }
 
                                             emailInp.setText("");
                                             passwordInp.setText("");
                                             passwordCnfInp.setText("");
                                             displayNameInp.setText("");
                                             message.setText("Novi korisnik je ažuriran");
-                                            Log.d("Poruka","Profil je ažuriran");
+
+                                            User newUser = new User(user.getUid(), user.getDisplayName(), user.getEmail(), role);
+                                            ref.child(user.getUid()).setValue(newUser);
+
                                         }
                                         else{
                                             Toast.makeText(

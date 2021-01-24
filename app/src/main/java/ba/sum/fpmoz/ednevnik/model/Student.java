@@ -4,7 +4,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Student {
-
+    public String uId;
     public String displayName;
     public String email;
     public String role;
@@ -12,7 +12,8 @@ public class Student {
     public Student() {
     }
 
-    public Student(String displayName, String email,String role) {
+    public Student(String uId,String displayName, String email,String role) {
+        this.uId = uId;
         this.displayName = displayName;
         this.email = email;
         this.role = role;

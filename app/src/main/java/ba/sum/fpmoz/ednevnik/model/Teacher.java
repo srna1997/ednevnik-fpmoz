@@ -1,6 +1,7 @@
 package ba.sum.fpmoz.ednevnik.model;
 
 public class Teacher {
+    public String uId;
     public String displayName;
     public String email;
     public String role;
@@ -8,7 +9,8 @@ public class Teacher {
     public Teacher() {
     }
 
-    public Teacher(String displayName, String email, String role) {
+    public Teacher(String uId, String displayName, String email, String role) {
+        this.uId = uId;
         this.displayName = displayName;
         this.email = email;
         this.role = role;

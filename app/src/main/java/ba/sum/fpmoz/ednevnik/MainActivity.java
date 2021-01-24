@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -39,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
     private EditText emailInp;
     private EditText passwordInp;
     private Button loginBtn;
-    private User loggedUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,41 +61,38 @@ public class MainActivity extends AppCompatActivity {
                 String email = emailInp.getText().toString();
                 String password = passwordInp.getText().toString();
 
-                mAuth.signInWithEmailAndPassword(email, password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+
+                mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
-                    public void onSuccess(AuthResult authResult) {
-                        checkUserRole(authResult.getUser().getUid());
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            message.setText("Uspješno ste se prijavili na sustav.");
+                            String uId = mAuth.getCurrentUser().getUid();
+                            FirebaseDatabase db = FirebaseDatabase.getInstance();
+                            DatabaseReference ref = db.getReference("ednevnik/korisnici/"+uId);
+                            ref.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    if(snapshot.child("role").getValue().toString().equals("Admin")){
+                                        startActivity(new Intent(getApplicationContext(), HomeNavigationActivity.class));
+                                    } else if(snapshot.child("role").getValue().toString().equals("Nastavnik")){
+                                        startActivity(new Intent(getApplicationContext(), TeacherMainActivity.class));
+                                    } else{
+                                        startActivity(new Intent(getApplicationContext(), StudentMainActivity.class));
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
+                        }
                     }
                 });
             }
-        });
-    }
 
-    private void checkUserRole(String uid) {
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        FirebaseDatabase db = FirebaseDatabase.getInstance();
-        DatabaseReference ref = db.getReference("/ednevnik/admini/").getRef().child(user.getUid());
 
-        ref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                loggedUser = snapshot.getValue(User.class);
-                if(loggedUser.role == "Admin"){
-                    Intent i = new Intent(getApplicationContext(), HomeNavigationActivity.class);
-                    startActivity(i);
-                } else if(loggedUser.role == "Nastavnik"){
-                    Toast.makeText(getApplicationContext(),"Nastavnik ce se logirati malo sutra",Toast.LENGTH_LONG);
-                } else
-                {
-                    Intent i = new Intent(getApplicationContext(), StudentMainActivity.class);
-                    startActivity(i);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
         });
     }
 }

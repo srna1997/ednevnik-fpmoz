@@ -41,11 +41,7 @@ public class AddClassFragment extends Fragment {
         this.addClassesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String uid = classesUid.getText().toString();
-                String name = classesName.getText().toString();
-                ref.push().setValue(new Classes(uid, name));
-                classesUid.setText("");
-                classesName.setText("");
+
             }
         });
         return userAdminView;
