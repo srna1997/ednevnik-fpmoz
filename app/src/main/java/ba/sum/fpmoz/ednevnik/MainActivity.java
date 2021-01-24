@@ -5,15 +5,33 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import ba.sum.fpmoz.ednevnik.model.Student;
+import ba.sum.fpmoz.ednevnik.model.Teacher;
+import ba.sum.fpmoz.ednevnik.model.User;
 
 public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
@@ -21,7 +39,8 @@ public class MainActivity extends AppCompatActivity {
     private EditText emailInp;
     private EditText passwordInp;
     private Button loginBtn;
-    private Button registerBtn;
+    private User loggedUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +54,6 @@ public class MainActivity extends AppCompatActivity {
         this.emailInp = findViewById(R.id.emailInp);
         this.passwordInp = findViewById(R.id.passwordInp);
         this.loginBtn = findViewById(R.id.loginBtn);
-        this.registerBtn = findViewById(R.id.registerBtn);
 
         this.loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,27 +61,40 @@ public class MainActivity extends AppCompatActivity {
                 String email = emailInp.getText().toString();
                 String password = passwordInp.getText().toString();
 
-                mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                mAuth.signInWithEmailAndPassword(email, password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                     @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
-                            message.setText("Uspješno ste se prijavili na sustav");
-                            Intent i = new Intent(getApplicationContext(), HomeNavigationActivity.class);
-                            startActivity(i);
-                        }
-                        else{
-                            message.setText("Nastao je problem sa prijavom na sustav");
-                        }
+                    public void onSuccess(AuthResult authResult) {
+                        checkUserRole(authResult.getUser().getUid());
                     }
                 });
             }
         });
+    }
 
-        this.registerBtn.setOnClickListener(new View.OnClickListener() {
+    private void checkUserRole(String uid) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseDatabase db = FirebaseDatabase.getInstance();
+        DatabaseReference ref = db.getReference("/ednevnik/admini/").getRef().child(user.getUid());
+
+        ref.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(),RegisterActivity.class);
-                startActivity(i);
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                loggedUser = snapshot.getValue(User.class);
+                if(loggedUser.role == "Admin"){
+                    Intent i = new Intent(getApplicationContext(), HomeNavigationActivity.class);
+                    startActivity(i);
+                } else if(loggedUser.role == "Nastavnik"){
+                    Toast.makeText(getApplicationContext(),"Nastavnik ce se logirati malo sutra",Toast.LENGTH_LONG);
+                } else
+                {
+                    Intent i = new Intent(getApplicationContext(), StudentMainActivity.class);
+                    startActivity(i);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
     }

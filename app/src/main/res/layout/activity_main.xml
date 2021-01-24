@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:layout_marginTop="10dp"
     android:layout_marginBottom="10dp"
-    android:background="#FEDBD0"
     tools:context=".MainActivity">
 
     <LinearLayout
@@ -20,13 +19,15 @@
         <TextView
             android:id="@+id/messageTxt"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textColorLink="#2E4552" />
 
         <TextView
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Unesite vaš email" />
+            android:text="Unesite vaš email"
+            android:textColorLink="#2E4552" />
 
         <EditText
             android:id="@+id/emailInp"
@@ -35,13 +36,14 @@
             android:ems="10"
             android:hint="Email"
             android:inputType="textPersonName"
-            android:textColorHint="#442C2E" />
+            android:textColorHint="#2E4552" />
 
         <TextView
             android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Unesite vašu lozinku" />
+            android:text="Unesite vašu lozinku"
+            android:textColorLink="#2E4552" />
 
         <EditText
             android:id="@+id/passwordInp"
@@ -50,21 +52,16 @@
             android:ems="10"
             android:hint="Lozinka"
             android:inputType="textPassword"
-            android:textColorHint="#442C2E" />
+            android:textColorHint="#2E4552" />
 
         <Button
             android:id="@+id/loginBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Prijavi se"
+            android:textColorLink="#98C1D9"
             app:backgroundTint="#442C2E" />
 
-        <Button
-            android:id="@+id/registerBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Registriraj se"
-            app:backgroundTint="#442C2E" />
     </LinearLayout>
 
     <TextView
@@ -73,7 +70,7 @@
         android:layout_height="77dp"
         android:fontFamily="@font/dancing_script"
         android:text="eDnevnik"
-        android:textColor="#442C2E"
+        android:textColorLink="#C77DFF"
         android:textSize="42dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"

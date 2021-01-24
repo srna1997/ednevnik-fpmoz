@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".TabbedCurseAdminActivity">
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/curseTabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="78dp"
+        app:tabTextAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/curseViewPager"
+        android:layout_width="match_parent"
+        android:layout_height="718dp">
+
+    </androidx.viewpager.widget.ViewPager>
+
+
+</LinearLayout>

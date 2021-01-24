@@ -4,23 +4,87 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FEDBD0"
     tools:context=".HomeNavigationActivity">
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="261dp"
-        android:layout_height="155dp"
-        android:fontFamily="@font/dancing_script"
-        android:text="Dobrodošli u eDnevnik"
-        android:textColor="#442C2E"
-        android:textSize="50dp"
-        android:textStyle="bold"
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.673"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.451" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/usersBtn"
+                android:layout_width="150sp"
+                android:layout_height="150sp"
+                android:adjustViewBounds="false"
+                android:background="#FFFFFF"
+                android:cropToPadding="false"
+                android:src="@drawable/ic_round_face_24" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10sp"
+                android:text="Korisnici sustava"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/classesBtn"
+                android:layout_width="150sp"
+                android:layout_height="150sp"
+                android:background="#FFFFFF"
+                android:src="@drawable/ic_baseline_groups_24" />
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10sp"
+                android:text="Razredi"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/coursesBtn"
+                android:layout_width="150sp"
+                android:layout_height="150sp"
+                android:background="#FFFFFF"
+                android:src="@drawable/ic_baseline_library_books_24" />
+
+            <TextView
+                android:id="@+id/textView11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="10sp"
+                android:text="Predmeti"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
